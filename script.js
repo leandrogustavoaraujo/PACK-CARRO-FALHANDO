@@ -1,10 +1,33 @@
 // Troque apenas esta URL quando o checkout definitivo estiver pronto.
-const CHECKOUT_URL = "https://seu-checkout-aqui.com/pack-carro-falhando";
+if (!window.__pageScriptInitialized) {
+  window.__pageScriptInitialized = true;
+
+  const CHECKOUT_URL = "https://pay.wiapy.com/s7FHHzZ_VTyA";
+
+// Repasse manual das UTMs (e parâmetros de origem) para o link do checkout,
+// como reforço independente do script da UTMify — já houve caso de UTM não
+// chegar no checkout Wiapy quando o link é definido dinamicamente via JS.
+function buildCheckoutUrlWithParams(baseUrl) {
+  const paramsToForward = [
+    "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
+    "src", "sck", "fbclid", "gclid"
+  ];
+  const currentParams = new URLSearchParams(window.location.search);
+  const checkoutUrl = new URL(baseUrl);
+  paramsToForward.forEach((key) => {
+    const value = currentParams.get(key);
+    if (value) checkoutUrl.searchParams.set(key, value);
+  });
+  return checkoutUrl.toString();
+}
 
 document.querySelectorAll("[data-checkout]").forEach((button) => {
-  button.href = CHECKOUT_URL;
+  button.href = buildCheckoutUrlWithParams(CHECKOUT_URL);
   button.target = "_blank";
   button.rel = "noopener noreferrer";
+  button.addEventListener("click", () => {
+    if (typeof fbq === "function") fbq("track", "InitiateCheckout");
+  });
 });
 
 document.querySelectorAll(".js-scroll-buy, .mobile-sticky a").forEach((button) => {
@@ -41,4 +64,5 @@ if (checkout && sticky && "IntersectionObserver" in window) {
   new IntersectionObserver(([entry]) => {
     sticky.classList.toggle("is-hidden", entry.isIntersecting);
   }, { threshold: 0.2 }).observe(checkout);
+}
 }

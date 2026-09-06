@@ -12,8 +12,49 @@
   <link rel="preload" href="assets/mockup-pack-transparente.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="premium-v2.css">
+
+  <!-- Meta Pixel + UTMify (guardado contra execução duplicada) -->
+  <script>
+  (function () {
+    if (window.__trackingInitialized) return;
+    window.__trackingInitialized = true;
+
+    // Meta Pixel
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '989728143663966');
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent');
+
+    // UTMify pixel
+    window.pixelId = "6a4cdbf16f0af078e4ec4a72";
+    var utmifyPixel = document.createElement("script");
+    utmifyPixel.setAttribute("async", "");
+    utmifyPixel.setAttribute("defer", "");
+    utmifyPixel.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(utmifyPixel);
+  })();
+  </script>
+
+  <!-- UTMify: repasse automático de UTMs para links da página -->
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
+  /></noscript>
   <header class="topbar">
     <span class="topbar__dot" aria-hidden="true"></span>
     OFERTA VÁLIDA HOJE — <span id="offerDate">CARREGANDO DATA...</span>
@@ -416,7 +457,6 @@
 
   <footer>
     <p><strong>PACK CARRO FALHANDO</strong></p>
-    <p>Material educativo de orientação inicial. Não substitui diagnóstico ou serviço de mecânico profissional.</p>
     <p>© <span id="year"></span> Todos os direitos reservados.</p>
   </footer>
 
