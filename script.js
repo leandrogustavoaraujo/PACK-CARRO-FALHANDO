@@ -66,3 +66,49 @@ if (checkout && sticky && "IntersectionObserver" in window) {
   }, { threshold: 0.2 }).observe(checkout);
 }
 }
+
+// Prova social: clientes reais informados pelo responsável da página.
+if (!window.__buyerProofInitialized) {
+  window.__buyerProofInitialized = true;
+
+  const buyerProofCustomers = [
+    "Carlos Henrique de Campinas, SP",
+    "Marcos Vinícius de Londrina, PR",
+    "Rafael Almeida de Uberlândia, MG",
+    "André Luiz de Joinville, SC",
+    "Fernando Souza de Goiânia, GO",
+    "Ricardo Martins de Ribeirão Preto, SP",
+    "Paulo Roberto de Maringá, PR",
+    "Eduardo Costa de Juiz de Fora, MG",
+    "Bruno Ferreira de Caxias do Sul, RS",
+    "Rodrigo Pereira de Campo Grande, MS",
+    "Lucas Ribeiro de São José do Rio Preto, SP",
+    "Gustavo Carvalho de Sorocaba, SP",
+    "Diego Freitas de Blumenau, SC",
+    "Leandro Nogueira de Anápolis, GO",
+    "Thiago Barros de Pelotas, RS"
+  ];
+
+  const buyerProof = document.querySelector("#buyerProof");
+  const buyerProofName = document.querySelector("#buyerProofName");
+  let buyerProofIndex = 0;
+
+  if (buyerProof && buyerProofName) {
+    const visibleTime = 5000;
+    const animationTime = 550;
+
+    window.setTimeout(() => buyerProof.classList.add("is-visible"), 350);
+
+    const showNextBuyer = () => {
+      buyerProof.classList.remove("is-visible");
+      window.setTimeout(() => {
+        buyerProofIndex = (buyerProofIndex + 1) % buyerProofCustomers.length;
+        buyerProofName.textContent = buyerProofCustomers[buyerProofIndex];
+        buyerProof.classList.add("is-visible");
+      }, animationTime);
+    };
+
+    window.setInterval(showNextBuyer, visibleTime + animationTime);
+  }
+}
+
