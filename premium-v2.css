@@ -465,8 +465,8 @@ h1, h2, h3 { text-wrap: balance; }
 }
 
 .hero__price-now .price-currency {
-  margin-right: 0;
-  margin-left: .1em;
+  margin-right: .16em;
+  margin-left: 0;
 }
 
 .hero--premium .hero__price-now span {
@@ -474,6 +474,16 @@ h1, h2, h3 { text-wrap: balance; }
 }
 
 .checkout-price .price-cents {
+  display: inline-block;
+  align-self: flex-end;
+  color: inherit;
+  margin: 0 0 .14em .08em;
+  font-size: .38em;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.hero__price .price-cents {
   display: inline-block;
   align-self: flex-end;
   color: inherit;
