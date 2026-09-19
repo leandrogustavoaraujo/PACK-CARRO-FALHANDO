@@ -35,7 +35,7 @@ fbq('track', 'ViewContent');
 <section class="quick-compare" aria-label="Comparação"><div class="quick-compare-inner"><article class="quick-compare-card quick-compare-no"><h2>SEM O SCANNER NO CELULAR</h2><ul><li>Pesquisa o defeito no chute</li><li>Troca peça sem certeza</li><li>Depende da oficina até para descobrir o problema</li><li>Pode gastar e continuar com a mesma falha</li></ul></article><article class="quick-compare-card quick-compare-yes"><h2>COM O SCANNER NO CELULAR</h2><ul><li>Escaneia pelo próprio celular</li><li>Encontra o código da falha</li><li>A apostila explica o que significa</li><li>Vê o que conferir e o que pode resolver em casa</li></ul></article></div></section>
 <!-- CONTEÚDO / CARROSSEL -->
 <section class="receive-section"><div class="receive-inner"><h2>VEJA O QUE VOCÊ IRÁ RECEBER</h2><p class="receive-subtitle">Tudo o que você precisa para escanear o carro, entender a falha e saber o que fazer em casa antes de gastar com mecânico.</p><div class="receive-pillars"><div><strong>SCANNER</strong><span>Conecta no carro.</span></div><div><strong>CELULAR</strong><span>Mostra o código.</span></div><div><strong>APOSTILA</strong><span>Explica o problema e o que fazer.</span></div></div>
-<div class="product-carousel" aria-label="O que você recebe"><button type="button" class="product-carousel-arrow product-carousel-prev" aria-label="Slide anterior">‹</button><div class="product-carousel-viewport" tabindex="0"><div class="product-carousel-track">
+<div class="product-carousel" aria-label="O que você recebe"><div class="product-carousel-viewport"><div class="product-carousel-track"><div class="product-carousel-group">
 <figure class="product-slide"><img src="assets/carousel-custom/01-scanner.webp" alt="Scanner físico azul sendo conectado ao carro" loading="lazy"><figcaption>SCANNER FÍSICO</figcaption></figure>
 <figure class="product-slide"><img src="assets/carousel-custom/02-celular-codigo.webp" alt="Celular exibindo o código de falha P0300" loading="lazy"><figcaption>CÓDIGO NO CELULAR</figcaption></figure>
 <figure class="product-slide"><img src="assets/carousel-custom/03-tradutor.webp" alt="Página da apostila com significado do código P0300" loading="lazy"><figcaption>ENTENDA O CÓDIGO</figcaption></figure>
@@ -44,7 +44,7 @@ fbq('track', 'ViewContent');
 <figure class="product-slide"><img src="assets/carousel-custom/06-resolva-em-casa.webp" alt="Página da apostila sobre verificações simples e seguras em casa" loading="lazy"><figcaption>RESOLVA EM CASA</figcaption></figure>
 <figure class="product-slide"><img src="assets/carousel-custom/07-antes-da-oficina.webp" alt="Página da apostila sobre quando procurar uma oficina" loading="lazy"><figcaption>QUANDO PROCURAR OFICINA</figcaption></figure>
 <figure class="product-slide product-slide-kit"><img src="assets/carousel-custom/08-kit-completo.webp" alt="Kit completo com scanner físico, apostila, celular e três bônus" loading="lazy"><figcaption>KIT COMPLETO</figcaption></figure>
-</div></div><button type="button" class="product-carousel-arrow product-carousel-next" aria-label="Próximo slide">›</button></div>
+</div></div></div></div>
 <ul class="receive-bullets"><li>Como conectar e escanear</li><li>Como entender os códigos</li><li>O que conferir primeiro</li><li>Como resolver falhas simples em casa</li></ul></div></section>
 <!-- COMO FUNCIONA -->
 <section class="simple-how"><div class="simple-how-inner"><h2>SIMPLES ASSIM:</h2><div class="simple-how-grid"><article><span class="simple-how-number">1</span><img src="assets/carousel-custom/01-scanner.webp" alt="Scanner sendo conectado no carro" loading="lazy"><strong>CONECTE</strong><p>o scanner no carro.</p></article><article><span class="simple-how-number">2</span><img src="assets/carousel-custom/02-celular-codigo.webp" alt="Código de falha aparecendo no celular" loading="lazy"><strong>ESCANEIE</strong><p>pelo celular.</p></article><article><span class="simple-how-number">3</span><img src="assets/carousel-custom/03-tradutor.webp" alt="Consulta do código na apostila" loading="lazy"><strong>CONSULTE</strong><p>o código na apostila.</p></article><article><span class="simple-how-number">4</span><img src="assets/carousel-custom/06-resolva-em-casa.webp" alt="Orientações simples e seguras da apostila" loading="lazy"><strong>RESOLVA</strong><p>em casa o que for simples.</p></article></div></div></section>
@@ -83,30 +83,9 @@ fbq('track', 'ViewContent');
   if(offerDate) offerDate.textContent=new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo'}).format(new Date());
   const carousel=document.querySelector('.product-carousel');
   if(carousel){
-    const viewport=carousel.querySelector('.product-carousel-viewport');
     const track=carousel.querySelector('.product-carousel-track');
-    const originals=[...track.children];
-    const appendClone=(node,where)=>{const copy=node.cloneNode(true);copy.setAttribute('aria-hidden','true');copy.querySelectorAll('img').forEach(img=>img.loading='lazy');where==='start'?track.prepend(copy):track.append(copy);};
-    originals.forEach(node=>appendClone(node,'end'));
-    [...originals].reverse().forEach(node=>appendClone(node,'start'));
-    let segment=0;
-    const measure=()=>{segment=track.scrollWidth/3;viewport.scrollLeft=segment;};
-    requestAnimationFrame(measure);
-    window.addEventListener('resize',measure,{passive:true});
-    const normalize=()=>{if(!segment)return;if(viewport.scrollLeft<segment*.5)viewport.scrollLeft+=segment;if(viewport.scrollLeft>segment*1.5)viewport.scrollLeft-=segment;};
-    viewport.addEventListener('scroll',normalize,{passive:true});
-    const step=()=>Math.round(originals[0].getBoundingClientRect().width+16);
-    carousel.querySelector('.product-carousel-prev').addEventListener('click',()=>viewport.scrollBy({left:-step(),behavior:'smooth'}));
-    carousel.querySelector('.product-carousel-next').addEventListener('click',()=>viewport.scrollBy({left:step(),behavior:'smooth'}));
-    let paused=false,hovering=false,dragging=false,startX=0,startScroll=0;
-    carousel.addEventListener('mouseenter',()=>{hovering=true;paused=true;});
-    carousel.addEventListener('mouseleave',()=>{hovering=false;paused=false;dragging=false;});
-    viewport.addEventListener('pointerdown',event=>{if(event.pointerType==='touch')return;dragging=true;paused=true;startX=event.clientX;startScroll=viewport.scrollLeft;viewport.setPointerCapture(event.pointerId);});
-    viewport.addEventListener('pointermove',event=>{if(dragging)viewport.scrollLeft=startScroll-(event.clientX-startX);});
-    viewport.addEventListener('pointerup',()=>{dragging=false;paused=hovering;});
-    viewport.addEventListener('touchstart',()=>paused=true,{passive:true});
-    viewport.addEventListener('touchend',()=>setTimeout(()=>paused=false,2200),{passive:true});
-    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){let last=0;const animate=time=>{if(last&&!paused&&!dragging)viewport.scrollLeft+=(time-last)*.012;last=time;requestAnimationFrame(animate);};requestAnimationFrame(animate);}
+    const group=track.querySelector('.product-carousel-group');
+    if(group){const repeat=group.cloneNode(true);repeat.setAttribute('aria-hidden','true');track.append(repeat);track.classList.add('is-ready');}
   }
 
   const addArrows=(track,label)=>{
